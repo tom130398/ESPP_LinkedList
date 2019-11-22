@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "linked_list.h"
 
 int add_to_list(linked_list *ll, char *s)
@@ -73,48 +74,45 @@ int display_list(linked_list *ll)
 linked_list *search_from_list(linked_list *ll, char *s)
 {
 	linked_list *found;
-        if(ll == NULL)
-        {
-                printf("NULL pointer\n");
-                return NULL;
-        }
-        if(s == NULL)
-        {
-                printf("Invalid data pointer\n");
-                return NULL;
-        }
-
+	if(ll == NULL)
+	{
+		printf("NULL pointer\n");
+		found = NULL;
+		return found;
+	}
+	if(s == NULL)
+	{
+		printf("Invalid data pointer\n");
+		found = NULL;
+		return found;
+	}
 	while(ll != NULL)
 	{
-		if(ll->data == s)
+		if(strcmp(s, ll->data) == 0)
 		{
 			found = ll;
 			return found;
 		}
-		else
-		{
-			found = NULL;
-			return found;
-		}
+		ll = ll->next;
 	}
 }
 
 int delete_from_list(linked_list *ll, int index)
 {
 	int count = 0;
-	linked_list *temp, *prev;
-        if(ll == NULL)
-        {
-                printf("NULL pointer\n");
-                return -1;
-        }
-        if(index == NULL || index <0)
-        {
-                printf("Invalid index\n");
-                return -1;
-        }
+	linked_list *temp = ll, *prev;
+	if(ll == NULL)
+	{
+		printf("NULL pointer\n");
+		return -1;
+	}
+	if(index == NULL || index <0)
+	{
+		printf("Invalid index\n");
+		return -1;
+	}
 	/*Delete data*/
-	if(temp->next != NULL && temp->index == index)
+	if(temp != NULL && temp->index == index)
 	{
 		ll = temp->next;
 		free(temp);
@@ -125,6 +123,8 @@ int delete_from_list(linked_list *ll, int index)
 		prev=temp;
 		temp=temp->next;
 	}
+	if(temp == NULL)
+		return -1;
 	prev->next=temp->next;
 	free(temp);
 }
