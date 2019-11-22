@@ -41,10 +41,10 @@ int display_item(linked_list *ll)
 	}
 	else
 	{
-		printf("Display item:\n");
+		/*printf("Display item:\n");
 		printf("\tItem %d\n", ll->index);
 		printf("\tItem's data: %s\n", ll->data);
-		printf("\tItem's next: %p\n", ll->next);
+		printf("\tItem's next: %p\n", ll->next);*/
 		return 0;
 	}
 }
@@ -59,7 +59,7 @@ int display_list(linked_list *ll)
         }
 	else
 	{
-		printf("Display list:\n");
+		//printf("Display list:\n");
 		while(ll != NULL)
 		{
 			display_item(ll);
@@ -99,7 +99,6 @@ linked_list *search_from_list(linked_list *ll, char *s)
 
 int delete_from_list(linked_list *ll, int index)
 {
-	int count = 0;
 	linked_list *temp = ll, *prev;
 	if(ll == NULL)
 	{
@@ -127,4 +126,42 @@ int delete_from_list(linked_list *ll, int index)
 		return -1;
 	prev->next=temp->next;
 	free(temp);
+}
+
+int linkedlist_status(linked_list *ll)
+{
+	if(ll == NULL)
+		return 0;
+	return 1 + linkedlist_status(ll->next);
+}
+
+int empty_list(linked_list *ll)
+{
+	int count = linkedlist_status(ll);
+	for(int i=0; i<count; i++)
+	{
+			delete_from_list(ll, i);
+	}
+	return count;
+}
+
+int swap_items(linked_list *f, linked_list *s)
+{
+	if(f == NULL || s == NULL)
+		return -1;
+	else
+	{
+		linked_list *temp = f->next;
+		f->next = s->next;
+		s->next = temp;
+		return 0;
+	}
+}
+
+int sort_list(linked_list *ll)
+{
+	linked_list *temp = ll, *prev;
+	if(prev->data > temp->data)
+		swap_items(prev,temp);
+	return 0;
 }

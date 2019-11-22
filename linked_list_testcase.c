@@ -190,7 +190,7 @@ TEST(search,not_found)
 }
 
 /***************************************************************************/
-/*TEST(sort,normal)
+TEST(sort,normal)
 {
     char str[15]="List Start";
     char str1[10]="zero";
@@ -218,7 +218,7 @@ TEST(search,not_found)
 
     display_list(head);
 
-}*/
+}
 
 /***************************************************************************/
 TEST(delete,normal)
@@ -285,7 +285,7 @@ TEST(delete,multi) {
 }
 
 /***************************************************************************/
-/*TEST(empty,normal) {
+TEST(empty,normal) {
     char str[15]="List Start";
     char str1[10]="zero";
     char str2[10]="first";
@@ -308,4 +308,4 @@ TEST(delete,multi) {
     i=add_to_list(head,str5);
     i=add_to_list(head,str6);
     empty_list(head);
-}*/
+}

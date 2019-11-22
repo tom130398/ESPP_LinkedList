@@ -24,3 +24,18 @@ linked_list *search_from_list(linked_list *ll, char *s);
 /*Delete item from a list and free space*/
 /*Return -1 as error, length of remaining list*/
 int delete_from_list(linked_list *ll, int index);
+
+/*Remove all items from the list and free allocated memory*/
+/*Return value of items deleted from the list*/
+int empty_list(linked_list *ll);
+
+/*Swap order of 2 items*/
+/*Return 0 for OK and -1 if either items was not in the list (content of the list did not change*/
+int swap_items(linked_list *f, linked_list *s);
+
+/*Sort list in rising order based on data*/
+int sort_list(linked_list *ll);
+
+/*Count the number of elements in the list*/
+/*Return amount of elements*/
+int linkedlist_status(linked_list *ll);
