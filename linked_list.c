@@ -9,12 +9,12 @@ int add_to_list(linked_list *ll, char *s)
 	linked_list *list = ll;
 	if(ll == NULL)	//check if pointer is NULL
 	{
-		printf("NULL pointer\n");
+		//printf("NULL pointer\n");
 		return -1;
 	}
 	else if(s == NULL)	//check if string pointer is NULL
 	{
-		printf("NULL string pointer\n");
+		//printf("NULL string pointer\n");
 		return -1;
 	}
 	else
@@ -36,7 +36,7 @@ int display_item(linked_list *ll)
 {
 	if(ll == NULL)
 	{
-		printf("NULL pointer\n");
+		//printf("NULL pointer\n");
 		return -1;
 	}
 	else
@@ -54,7 +54,7 @@ int display_list(linked_list *ll)
 	int num_element = 0;
 	if(ll == NULL)
         {
-                printf("NULL pointer\n");
+                //printf("NULL pointer\n");
                 return -1;
         }
 	else
@@ -76,13 +76,13 @@ linked_list *search_from_list(linked_list *ll, char *s)
 	linked_list *found;
 	if(ll == NULL)
 	{
-		printf("NULL pointer\n");
+		//printf("NULL pointer\n");
 		found = NULL;
 		return found;
 	}
 	if(s == NULL)
 	{
-		printf("Invalid data pointer\n");
+		//printf("Invalid data pointer\n");
 		found = NULL;
 		return found;
 	}
@@ -100,32 +100,49 @@ linked_list *search_from_list(linked_list *ll, char *s)
 int delete_from_list(linked_list *ll, int index)
 {
 	linked_list *temp = ll, *prev;
+	int n = display_list(ll);
 	if(ll == NULL)
 	{
-		printf("NULL pointer\n");
+		//printf("NULL pointer\n");
 		return -1;
 	}
-	if(index == NULL || index <0)
+	if(index == NULL || index <0 || index > n)
 	{
-		printf("Invalid index\n");
+		//printf("Invalid index\n");
 		return -1;
-	}
-	/*Delete data*/
-	if(temp != NULL && temp->index == index)
-	{
-		ll = temp->next;
-		free(temp);
-		display_list(ll);
-	}
-	while(temp != NULL && temp->index != index)
-	{
-		prev=temp;
-		temp=temp->next;
 	}
 	if(temp == NULL)
 		return -1;
-	prev->next=temp->next;
-	free(temp);
+	//Delete data
+	if(ll->index == index)
+	{
+		ll= temp->next;	//change head
+		free(temp);		//free old head
+	}
+	if(ll->index != index)
+	{	
+		prev=temp;
+		temp=temp->next;
+	}
+	prev->next=temp->next;	//Unlink the node from linked list
+	free(temp);	//free memory
+	
+	if(prev == NULL)
+		ll = temp;
+	else if(prev->next != NULL)
+		ll = prev->next;
+	else
+		return prev->index + 1;
+	
+	while(true)
+	{
+		ll->index--;
+		if(ll->next == NULL)
+			break;
+		ll = ll->next;
+	}
+	
+	return ll->index + 1;
 }
 
 int linkedlist_status(linked_list *ll)
@@ -137,6 +154,8 @@ int linkedlist_status(linked_list *ll)
 
 int empty_list(linked_list *ll)
 {
+	if(ll == NULL)
+		return -1;
 	int count = linkedlist_status(ll);
 	for(int i=0; i<count; i++)
 	{

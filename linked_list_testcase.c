@@ -38,21 +38,28 @@ TEST(addtest,normal) {
 
 }
 
-
-/***************************************************************************/
-TEST(display_list,empty)
-{
-    int result;
+TEST(addtest,null_head) {
     char str[15]="List Start";
+    char str1[10]="zero";
+    int i;
 
-    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+    linked_list *head = NULL;
+    i=add_to_list(head,str1);
+    EXPECT_EQ(-1,i);
 
-    head->next=NULL;
-    head->data=str;
+}
+
+TEST(addtest,null_string) {
+    char str[15]="List Start";
+    char *str1 = 0;
+    int i;
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
+	head->next=NULL; 
+    head->data=str; 
     head->index=0;
-
-    display_list(head);
-
+    i=add_to_list(head,str1);
+    EXPECT_EQ(-1,i);
 }
 
 /***************************************************************************/
@@ -112,6 +119,51 @@ TEST(display_item,add_to_list)
 
 }
 
+TEST(display_item,null_head) {
+    char str[15]="List Start";
+    char str1[10]="zero";
+    int i;
+
+    linked_list *head = NULL;
+    i=display_item(head);
+    EXPECT_EQ(-1,i);
+
+}
+
+TEST(display_item, null_string){
+	linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));
+	head->next=NULL;
+    head->data=NULL;
+    head->index=0;
+	int i = display_item(head);
+	EXPECT_EQ(0,i);
+}
+/***************************************************************************/
+TEST(display_list,empty)
+{
+    int result;
+    char str[15]="List Start";
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    display_list(head);
+
+}
+
+TEST(display_list,null_head) {
+    char str[15]="List Start";
+    char str1[10]="zero";
+    int i;
+
+    linked_list *head = NULL;
+    i=display_list(head);
+    EXPECT_EQ(-1,i);
+
+}
 /***************************************************************************/
 TEST(display_list,normal)
 {
@@ -189,6 +241,131 @@ TEST(search,not_found)
     EXPECT_EQ((int *)found,(int *)NULL);
 }
 
+TEST(search,null_string)
+{
+    char *str = 0;
+
+    linked_list *found;
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    found=search_from_list(head,str);
+
+    EXPECT_EQ((int *)found,(int *)NULL);
+}
+
+/***************************************************************************/
+TEST(delete,null_head) {
+    char str[15]="List Start";
+    char str1[10]="zero";
+    int i;
+	linked_list *head = NULL;
+    i=delete_from_list(head,0);
+    EXPECT_EQ(-1,i);
+
+}
+
+TEST(delete,normal)
+{
+    char str[15]="List Start";
+    char str1[10]="zero";
+    char str2[10]="first";
+    char str3[10]="second";
+    char str4[10]="third";
+    char str5[10]="fourth";
+    char str6[10]="fifth";
+    int i;
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    i=add_to_list(head,str1);
+    i=add_to_list(head,str2);
+    i=add_to_list(head,str3);
+    i=add_to_list(head,str4);
+    i=add_to_list(head,str5);
+    i=add_to_list(head,str6);
+
+    int  len = delete_from_list(head,2);
+	EXPECT_EQ(len,6);
+}
+
+/***************************************************************************/
+TEST(delete,multi) {
+    char str[15]="List Start";
+    char str1[10]="zero";
+    char str2[10]="first";
+    char str3[10]="second";
+    char str4[10]="third";
+    char str5[10]="fourth";
+    char str6[10]="fifth";
+    int i;
+	int len;
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    i=add_to_list(head,str1);
+    i=add_to_list(head,str2);
+    i=add_to_list(head,str3);
+    i=add_to_list(head,str4);
+    i=add_to_list(head,str5);
+    i=add_to_list(head,str6);
+
+    for(i=0; i<40; i++)
+        add_to_list(head,str1);
+
+    len=delete_from_list(head,12);
+    len=delete_from_list(head,22);
+    len=delete_from_list(head,25);
+    len=delete_from_list(head,32);
+    len=delete_from_list(head,38);
+    len=delete_from_list(head,380);
+	EXPECT_EQ(len,-1);
+}
+
+/***************************************************************************/
+TEST(empty,normal) {
+    char str[15]="List Start";
+    char str1[10]="zero";
+    char str2[10]="first";
+    char str3[10]="second";
+    char str4[10]="third";
+    char str5[10]="fourth";
+    char str6[10]="fifth";
+    int i;
+
+    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
+
+    head->next=NULL;
+    head->data=str;
+    head->index=0;
+
+    i=add_to_list(head,str1);
+    i=add_to_list(head,str2);
+    i=add_to_list(head,str3);
+    i=add_to_list(head,str4);
+    i=add_to_list(head,str5);
+    i=add_to_list(head,str6);
+	int count = empty_list(head);
+	EXPECT_EQ(count,7);
+}
+
+TEST(empty,null_head) {
+	linked_list *head = NULL;
+    int i=empty_list(head);
+    EXPECT_EQ(-1,i);
+
+}
 /***************************************************************************/
 TEST(sort,normal)
 {
@@ -218,94 +395,4 @@ TEST(sort,normal)
 
     display_list(head);
 
-}
-
-/***************************************************************************/
-TEST(delete,normal)
-{
-    char str[15]="List Start";
-    char str1[10]="zero";
-    char str2[10]="first";
-    char str3[10]="second";
-    char str4[10]="third";
-    char str5[10]="fourth";
-    char str6[10]="fifth";
-    int i;
-
-    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
-
-    head->next=NULL;
-    head->data=str;
-    head->index=0;
-
-    i=add_to_list(head,str1);
-    i=add_to_list(head,str2);
-    i=add_to_list(head,str3);
-    i=add_to_list(head,str4);
-    i=add_to_list(head,str5);
-    i=add_to_list(head,str6);
-
-    delete_from_list(head,2);
-
-}
-
-/***************************************************************************/
-TEST(delete,multi) {
-    char str[15]="List Start";
-    char str1[10]="zero";
-    char str2[10]="first";
-    char str3[10]="second";
-    char str4[10]="third";
-    char str5[10]="fourth";
-    char str6[10]="fifth";
-    int i;
-    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
-
-    head->next=NULL;
-    head->data=str;
-    head->index=0;
-
-    i=add_to_list(head,str1);
-    i=add_to_list(head,str2);
-    i=add_to_list(head,str3);
-    i=add_to_list(head,str4);
-    i=add_to_list(head,str5);
-    i=add_to_list(head,str6);
-
-    for(i=0; i<40; i++)
-        add_to_list(head,str1);
-
-    delete_from_list(head,12);
-    delete_from_list(head,22);
-    delete_from_list(head,25);
-    delete_from_list(head,32);
-    delete_from_list(head,38);
-
-    delete_from_list(head,380);
-}
-
-/***************************************************************************/
-TEST(empty,normal) {
-    char str[15]="List Start";
-    char str1[10]="zero";
-    char str2[10]="first";
-    char str3[10]="second";
-    char str4[10]="third";
-    char str5[10]="fourth";
-    char str6[10]="fifth";
-    int i;
-
-    linked_list *head = (struct linked_list*) malloc(sizeof(linked_list));  
-
-    head->next=NULL;
-    head->data=str;
-    head->index=0;
-
-    i=add_to_list(head,str1);
-    i=add_to_list(head,str2);
-    i=add_to_list(head,str3);
-    i=add_to_list(head,str4);
-    i=add_to_list(head,str5);
-    i=add_to_list(head,str6);
-    empty_list(head);
 }
